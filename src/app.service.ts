@@ -1,4 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { Interface } from 'readline';
+
+interface Student {
+  fullName: string;
+  grades: number[];
+  course: string;
+  graduationYear: number;
+  avatarSrc: string;
+}
 
 @Injectable()
 export class AppService {
@@ -6,26 +15,35 @@ export class AppService {
     return 'Hello World!';
   }
 
-  isNameValid(firstName: string, lastName: string): boolean { 
-      if ((firstName === 'Anna' && lastName === 'Julia') 
-      ||
-      (firstName === 'Jane' && lastName === 'Doe')) return true;
-      else return false;
+  isStudentInList(fullName: string, studentList: Student[]): boolean {
+    for (let student in studentList) {
+      if (studentList[student].fullName == fullName) return true;
+    }
+    return false;
   }
 
-  getStudent(firstName, lastName) {
-      if ((firstName === 'Anna' && lastName === 'Julia')) {
-          return ({
-              name: 'Anna Julia',
-              grades: [3.3, 3.1, 3.5, 3.15, 3.5]
-          })
-      }
-      else if ((firstName === 'Jane' && lastName === 'Doe')) {
-          return ({
-              name: 'Jane Doe',
-              grades: [3.2, 3.6, 3.7, 3.3, 3.6]
-          })
-      }
-
+  addNewStudent(newStudent: Student, studentList: Student[]): Student[] {
+    studentList.push(newStudent);
+    return studentList;
   }
-} 
+
+  getStudent(fullName, studentList) {
+    for (let student in studentList) {
+      console.log(studentList[student].fullName.valueOf());
+
+      if (studentList[student].fullName.valueOf() === fullName.valueOf())
+        return studentList[student];
+    }
+    return null;
+  }
+
+  addGradesToExistingStudent(fullName, newGrade, studentList) {
+    for (let student in studentList) {
+      if (studentList[student].fullName == fullName) {
+        studentList[student].grades.push(parseFloat(newGrade));
+        return studentList;
+      }
+    }
+    return null;
+  }
+}

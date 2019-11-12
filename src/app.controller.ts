@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 interface Student {
   fullName: string;
   grades: number[];
+  average: number;
   course: string;
   graduationYear: number;
   avatarSrc: string;
@@ -13,13 +14,15 @@ let studentList: Student[] = [
   {
     fullName: 'Maria dos Santos',
     grades: [9.2, 8.6, 8.7, 9.3, 8.6],
+    average: 8.9,
     course: 'Engenharia Aeronáutica',
     graduationYear: 2021,
     avatarSrc: 'https://random.dog/42980553-2f4f-4829-86a0-1c9ba7b7300c.jpg',
   },
   {
     fullName: 'João da Silva',
-    grades: [8.2, 7.6, 8.7, 7.3, 8.6],
+    grades: [8.2, 7.5, 8.4, 7.4, 8.0],
+    average: 7.9,
     course: 'Engenharia de Computação',
     graduationYear: 2023,
     avatarSrc: 'https://random.dog/1e8ff2fc-6a85-42c4-b9d8-a81bcf36dd98.jpg',
@@ -62,7 +65,14 @@ export class AppController {
       throw new HttpException('Student is already in the database', 400);
     }
     studentList = this.appService.addNewStudent(
-      { fullName, course, graduationYear, avatarSrc: undefined, grades: [] },
+      {
+        fullName,
+        course,
+        graduationYear,
+        avatarSrc: undefined,
+        grades: [],
+        average: undefined,
+      },
       studentList,
     );
     console.log(studentList);

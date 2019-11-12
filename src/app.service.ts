@@ -4,6 +4,7 @@ import { Interface } from 'readline';
 interface Student {
   fullName: string;
   grades: number[];
+  average: number;
   course: string;
   graduationYear: number;
   avatarSrc: string;
@@ -28,11 +29,14 @@ export class AppService {
   }
 
   getStudent(fullName, studentList) {
-    for (let student in studentList) {
-      console.log(studentList[student].fullName.valueOf());
+    for (let index in studentList) {
+      let student = studentList[index];
+      console.log(student.fullName.valueOf());
 
-      if (studentList[student].fullName.valueOf() === fullName.valueOf())
-        return studentList[student];
+      if (student.fullName.valueOf() === fullName.valueOf()) {
+        student.average = this.calculateAverage(student.grades);
+        return student;
+      }
     }
     return null;
   }
@@ -45,5 +49,15 @@ export class AppService {
       }
     }
     return null;
+  }
+
+  calculateAverage(grades: number[]): number {
+    let gpa: number = 0;
+
+    for (const grade of grades) {
+      gpa += grade / grades.length;
+    }
+
+    return gpa;
   }
 }

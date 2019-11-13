@@ -67,6 +67,8 @@ export class AppService {
   }
 
   calculateAverage(grades: number[]): number {
+    if (!grades || !grades.length) return 0;
+
     let gpa: number = 0;
 
     for (const grade of grades) {

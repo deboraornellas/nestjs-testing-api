@@ -14,7 +14,7 @@ let studentList: Student[] = [
   {
     fullName: 'Maria',
     grades: [9.2, 8.6, 8.7, 9.3, 8.6],
-    average: 8.9,
+    average: 8.88,
     course: 'Engenharia Aeronáutica',
     graduationYear: 2021,
     avatarSrc: 'https://random.dog/42980553-2f4f-4829-86a0-1c9ba7b7300c.jpg',
@@ -40,7 +40,6 @@ export class AppController {
 
   @Get('/student')
   getStudent(@Query('fullName') fullName: string): Student {
-    console.log(fullName);
     const student = this.appService.getStudent(fullName, studentList);
     if (!student) {
       throw new HttpException(
@@ -48,7 +47,6 @@ export class AppController {
         400,
       );
     }
-    console.log(studentList);
     return student;
   }
 
@@ -58,7 +56,6 @@ export class AppController {
     @Query('course') course: string,
     @Query('graduationYear') graduationYear: number,
   ): Promise<void> {
-    console.log(fullName, course, graduationYear);
     if (!fullName) {
       throw new HttpException('Student full name is obligatory', 400);
     }
@@ -76,7 +73,6 @@ export class AppController {
       },
       studentList,
     );
-    console.log(studentList);
   }
 
   @Post('/add-grade')
@@ -95,6 +91,5 @@ export class AppController {
       newGrade,
       studentList,
     );
-    console.log(studentList);
   }
 }

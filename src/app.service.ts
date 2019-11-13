@@ -44,10 +44,10 @@ export class AppService {
   }
 
   getStudent(fullName, studentList) {
+    if (!fullName) return null;
+
     for (let index in studentList) {
       let student = studentList[index];
-      console.log(student.fullName.valueOf());
-
       if (student.fullName.valueOf() === fullName.valueOf()) {
         student.average = this.calculateAverage(student.grades);
         return student;
@@ -57,9 +57,12 @@ export class AppService {
   }
 
   addGradesToExistingStudent(fullName, newGrade, studentList) {
-    for (let student in studentList) {
-      if (studentList[student].fullName == fullName) {
-        studentList[student].grades.push(parseFloat(newGrade));
+    if (!fullName) return null;
+    for (let index in studentList) {
+      const student = studentList[index];
+      if (student.fullName.valueOf() === fullName.valueOf()) {
+        student.grades.push(parseFloat(newGrade));
+        student.average = this.calculateAverage(student.grades);
         return studentList;
       }
     }
@@ -75,6 +78,6 @@ export class AppService {
       gpa += grade / grades.length;
     }
 
-    return gpa;
+    return parseFloat(gpa.toFixed(2));
   }
 }

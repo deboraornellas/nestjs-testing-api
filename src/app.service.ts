@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, HttpService } from '@nestjs/common';
 import { Interface } from 'readline';
 
 interface Student {
@@ -12,18 +12,33 @@ interface Student {
 
 @Injectable()
 export class AppService {
+  constructor(private http: HttpService) {}
   getHello(): string {
     return 'Hello World!';
   }
 
   isStudentInList(fullName: string, studentList: Student[]): boolean {
+    if (!fullName) return false;
     for (let student in studentList) {
       if (studentList[student].fullName == fullName) return true;
     }
     return false;
   }
 
-  addNewStudent(newStudent: Student, studentList: Student[]): Student[] {
+  async getAvatarPicture(): Promise<string> {
+    const randomDogURL = 'https://random.dog/woof.json';
+    let response;
+    do {
+      response = await this.http.get(randomDogURL).toPromise();
+    } while (!response.data.url.includes('jpg'));
+    return response.data.url;
+  }
+
+  async addNewStudent(
+    newStudent: Student,
+    studentList: Student[],
+  ): Promise<Student[]> {
+    newStudent.avatarSrc = await this.getAvatarPicture();
     studentList.push(newStudent);
     return studentList;
   }

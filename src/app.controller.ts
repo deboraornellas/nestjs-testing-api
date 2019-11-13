@@ -12,7 +12,7 @@ interface Student {
 
 let studentList: Student[] = [
   {
-    fullName: 'Maria dos Santos',
+    fullName: 'Maria',
     grades: [9.2, 8.6, 8.7, 9.3, 8.6],
     average: 8.9,
     course: 'Engenharia Aeronáutica',
@@ -20,7 +20,7 @@ let studentList: Student[] = [
     avatarSrc: 'https://random.dog/42980553-2f4f-4829-86a0-1c9ba7b7300c.jpg',
   },
   {
-    fullName: 'João da Silva',
+    fullName: 'João',
     grades: [8.2, 7.5, 8.4, 7.4, 8.0],
     average: 7.9,
     course: 'Engenharia de Computação',
@@ -53,18 +53,19 @@ export class AppController {
   }
 
   @Post('/new-student')
-  addNewStudent(
+  async addNewStudent(
     @Query('fullName') fullName: string,
     @Query('course') course: string,
     @Query('graduationYear') graduationYear: number,
-  ): void {
+  ): Promise<void> {
+    console.log(fullName, course, graduationYear);
     if (!fullName) {
       throw new HttpException('Student full name is obligatory', 400);
     }
     if (this.appService.isStudentInList(fullName, studentList)) {
       throw new HttpException('Student is already in the database', 400);
     }
-    studentList = this.appService.addNewStudent(
+    studentList = await this.appService.addNewStudent(
       {
         fullName,
         course,

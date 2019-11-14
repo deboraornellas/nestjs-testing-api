@@ -72,12 +72,12 @@ export class AppService {
   calculateAverage(grades: number[]): number {
     if (!grades || !grades.length) return 0;
 
-    let gpa: number = 0;
+    let average: number = 0;
 
     for (const grade of grades) {
-      gpa += grade / grades.length;
+      average += grade / grades.length;
     }
 
-    return parseFloat(gpa.toFixed(2));
+    return parseFloat(average.toFixed(2));
   }
 }

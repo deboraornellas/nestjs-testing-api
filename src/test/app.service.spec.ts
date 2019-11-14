@@ -163,22 +163,22 @@ describe('AppService', () => {
   });
 
   describe('calculateAverage', () => {
-    it('should return zero if grade array does not exist', async () => {
+    it('should return zero if grade array does not exist', () => {
       const gradesArray = null;
-      const average = await appService.calculateAverage(gradesArray);
+      const average = appService.calculateAverage(gradesArray);
 
       expect(average).toEqual(0);
     });
-    it('should return zero if grade array is empty', async () => {
+    it('should return zero if grade array is empty', () => {
       const gradesArray = [];
-      const average = await appService.calculateAverage(gradesArray);
+      const average = appService.calculateAverage(gradesArray);
 
       expect(average).toEqual(0);
     });
-    it('should calculate student graduate correctly if grade array is not empty', async () => {
+    it('should calculate student graduate correctly if grade array is not empty', () => {
       const gradesArray = [9.0, 9.4, 9.1, 9.3];
       const expectedAverage = 9.2;
-      const average = await appService.calculateAverage(gradesArray);
+      const average = appService.calculateAverage(gradesArray);
 
       expect(average).toEqual(expectedAverage);
     });
